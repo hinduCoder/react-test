@@ -1,8 +1,11 @@
-let request = require('request')
+import request from 'request'
+import "babel-polyfill";
 function _getMaxPage(linkHeader) {
   if (!linkHeader)
-    return 0;
+    return null;
   let lastLink = linkHeader.split(',').find(link => link.includes('last'))
+  if (!lastLink)
+    return null;
   return parseInt(/(?:\?|&)page=(\d+)/.exec(lastLink)[1])
 }
 function retrieveIssues(user, repo, page, perPage) {
@@ -39,4 +42,4 @@ function retrieveUserRepos(user) {
       })
    })
 }
-module.exports = { retrieveIssues, retrieveUserRepos }
+export default { retrieveIssues, retrieveUserRepos }
